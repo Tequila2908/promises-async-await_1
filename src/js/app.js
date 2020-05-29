@@ -1,25 +1,18 @@
 
-/* eslint-disable no-plusplus */
-/* eslint-disable no-continue */
-import types from './types';
+import read from './reader';
+import json from './parser';
 
-export default function Character(name, type) {
-  const stringType = String(type);
-  const stringName = String(name);
-  if (stringName.length < 2 || stringName.length > 10) {
-    throw new Error('Поле name должно содержать от 2 до 10 символов');
-  } else {
-    this.name = stringName;
-    for (const option in types) {
-      if (option === stringType) {
-        this.type = stringType;
-      } else if (types.Options.indexOf(stringType) === -1) {
-        throw new Error('Неверный тип персонажа');
-      }
-    }
+export default class GameSavingLoader {
+  static load() {
+    return new Promise((resolve) => {
+      const data = read();
+      data.then((response) => {
+        const obj = json(response);
+        return obj;
+      }).then((obj) => {
+        resolve(obj);
+      })
+    })
   }
-  this.health = 100;
-  this.level = 1;
-  this.attack = types[stringType].attack;
-  this.protection = types[stringType].protection;
 }
+
