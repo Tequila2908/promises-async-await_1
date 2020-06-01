@@ -11,8 +11,7 @@ export default class GameSavingLoader {
         return obj;
       }).then((obj) => {
         resolve(obj);
-      })
-    })
+      });
+    });
   }
 }
-
